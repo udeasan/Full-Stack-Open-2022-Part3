@@ -54,13 +54,30 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end();
 });
 
-app.post('api/persons', (request, response) => {
+app.post('/api/persons', (request, response) => {
     const person = request.body;
-    person.id = Math.random(1000);
 
-    persons = persons.concat(person);
-    response.json(person);
+    if (!person.name || !person.number) {
+        console.log(person)
+        response.status(412).json({ "error": "Missing required parameters" });
+    } else {
+        findPerson = persons.find(p => p.name === person.name);
+        if (findPerson) {
+            console.log(findPerson);
+            response.status(412).json({ "error": "User already exists" });
+        }
+        else {
+            person.id = getRandomInt(10000);
+
+            persons = persons.concat(person);
+            response.json(person);
+        }
+    }
 })
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
 
 const PORT = 3001;
 
