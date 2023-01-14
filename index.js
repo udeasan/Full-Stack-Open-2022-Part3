@@ -1,7 +1,15 @@
 const express = require('express');
+var morgan = require('morgan')
+
 const app = express();
 
 app.use(express.json());
+
+morgan.token('body', req => {
+    return JSON.stringify(req.body);
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
 let persons = [
     {
@@ -25,6 +33,10 @@ let persons = [
         "number": "39-23-6423122"
     }
 ]
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
 
 app.get('/api/persons', (request, response) => {
     response.json(persons);
@@ -75,9 +87,11 @@ app.post('/api/persons', (request, response) => {
     }
 })
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'Unknown endpoint' })
 }
+
+app.use(unknownEndpoint);
 
 const PORT = 3001;
 
