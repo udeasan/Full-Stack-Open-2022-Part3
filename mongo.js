@@ -47,7 +47,7 @@ if (process.argv.length === 3) {
     .then((result) => {
       console.log('Added', result.name, 'number', result.number, 'to the Phonebook!');
     })
-    .then(() => {
+    .finally(() => {
       mongoose.connection.close()
     })
 }
