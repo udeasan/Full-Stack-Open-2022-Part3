@@ -16,7 +16,7 @@ const personSchema = new mongoose.Schema({
   id: Number,
   name: String,
   number: String
-}, { collection: 'persons' });
+}, { collection: 'persons' })
 
 const Person = mongoose.model('Person', personSchema)
 
@@ -25,12 +25,12 @@ if (process.argv.length === 3) {
     .find({})
     .then((result) => {
       if (result.length > 0) {
-        console.log('Phonebook:');
+        console.log('Phonebook:')
         result.forEach((person) => {
-          console.log(person.name, ' ', person.number);
+          console.log(person.name, ' ', person.number)
         })
       } else {
-        console.log('The Phonebook is empty');
+        console.log('The Phonebook is empty')
       }
     })
     .finally(() => {
@@ -45,7 +45,7 @@ if (process.argv.length === 3) {
   person
     .save()
     .then((result) => {
-      console.log('Added', result.name, 'number', result.number, 'to the Phonebook!');
+      console.log('Added', result.name, 'number', result.number, 'to the Phonebook!')
     })
     .finally(() => {
       mongoose.connection.close()
